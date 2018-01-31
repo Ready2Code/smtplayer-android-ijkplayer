@@ -40,7 +40,6 @@ public class SmtActivity extends AppCompatActivity {
         Button smtstart_button = (Button)findViewById(R.id.smtstart);
         Button fileexplorer_button = (Button)findViewById(R.id.fileexplorer);
 
-
         SharedPreferences smtgetSharedPreferences = getSharedPreferences("smtset", Activity.MODE_PRIVATE);
         smtURL.setText(smtgetSharedPreferences.getString("smturl",""));
         smtplay_button.setOnClickListener(new View.OnClickListener() {
@@ -128,16 +127,8 @@ public class SmtActivity extends AppCompatActivity {
         fileexplorer_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                class MyThread extends Thread {
-                    public void run(){
-                        MMTtoolApi mmttoolapi = new MMTtoolApi();
-                        mmttoolapi.run_MMTtool("--ts2ip --srcip 192.168.200.12 --srcport 23456 --dstip 127.0.0.1 --dstport 0");
-
-                    }
-                }
-                new MyThread().start();
-                //Intent it = new Intent(SmtActivity.this, FileExplorerActivity.class);
-                //SmtActivity.this.startActivity(it);
+                Intent it = new Intent(SmtActivity.this, FileExplorerActivity.class);
+                SmtActivity.this.startActivity(it);
             }
     });
 
