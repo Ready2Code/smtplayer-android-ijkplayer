@@ -1,0 +1,6 @@
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := MMTtool
+LOCAL_SRC_FILES := $(MY_APP_MMTTOOL_OUTPUT_PATH)/libMMTtool.so
+include $(PREBUILT_SHARED_LIBRARY)

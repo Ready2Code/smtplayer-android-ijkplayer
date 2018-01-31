@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@android:color/background_dark"
+
+    android:id="@+id/quanping"
+    tools:context="tv.danmaku.ijk.media.example.activities.smtAvActivity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="220dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:weightSum="1"
+        android:layout_marginLeft="700dp">
+        <LinearLayout
+
+            android:layout_gravity="right"
+            android:layout_width="200dp"
+            android:layout_height="160dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1"
+            android:paddingTop="0dp"
+            android:paddingLeft="0dp"
+            android:layout_marginBottom="100dp">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/fly"
+                android:text=""
+                android:id="@+id/avfly"
+                android:alpha="150"
+                android:paddingTop="120dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_gravity="right"
+            android:layout_width="200dp"
+            android:layout_height="160dp"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+
+            android:weightSum="1"
+            android:layout_marginBottom="100dp">
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="160dp"
+                android:background="@mipmap/coca"
+                android:layout_gravity="right|center_vertical"
+                android:text=""
+                android:id="@+id/avcoca"
+                android:alpha="150"
+                android:paddingTop="120dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_gravity="right|center_vertical"
+            android:layout_width="200dp"
+            android:layout_height="160dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1">
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="160dp"
+                android:background="@mipmap/mac"
+                android:layout_gravity="right|center_vertical"
+                android:text=""
+                android:id="@+id/avmac"
+                android:alpha="150"
+                android:paddingTop="120dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginRight="260dp"
+        android:layout_marginLeft="-10dp"
+        android:weightSum="1"
+        android:id="@+id/linearLayout">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="pad_p"
+            android:id="@+id/button_p"
+            android:layout_marginLeft="90dp"
+            android:paddingBottom="-50dp"
+            android:paddingTop="300dp"
+            android:paddingLeft="50dp"
+            android:layout_weight="0.13"
+            android:alpha="0" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="pad_c"
+            android:id="@+id/button_c"
+            android:layout_marginLeft="260dp"
+            android:paddingBottom="-200dp"
+            android:layout_marginBottom="0dp"
+            android:layout_weight="0.13"
+            android:layout_marginRight="30dp"
+            android:alpha="0" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="867dp"
+        android:text=""
+        android:id="@+id/broadcastav"
+        android:background="@mipmap/coffe"
+        android:paddingTop="300dp"
+        android:paddingLeft="50dp"
+        android:alpha="150"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/linearLayout"
+        android:layout_alignEnd="@+id/linearLayout" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set_Button"
+        android:id="@+id/ad_button"
+        android:layout_toRightOf="@+id/broadcastav"
+        android:layout_toEndOf="@+id/broadcastav"
+        android:layout_marginLeft="100dp"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
