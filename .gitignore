@@ -24,6 +24,7 @@ ijkprof/android-ndk-profiler/
 bin/
 gen/
 obj/
+*.iml
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -38,3 +39,4 @@ xcuserdata
 xcshareddata
 *.xccheckout
 
+ijkplayer-example/smt_system/
