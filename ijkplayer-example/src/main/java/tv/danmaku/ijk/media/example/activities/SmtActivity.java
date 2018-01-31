@@ -32,19 +32,15 @@ public class SmtActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smt);
 
-        Intent serviceIntent = new Intent(this, SmtListenService.class);
-        startService(serviceIntent);
 
-        Intent starcoreIntent = new Intent(this, StarcoreService.class);
-        startService(starcoreIntent);
 
         myWebView = (WebView) findViewById(R.id.myWebView);
         smtURL = (EditText)findViewById(R.id.smtText);
         Button smtplay_button = (Button)findViewById(R.id.smtplay);
         Button play_button = (Button)findViewById(playfile);
         Button smtset_button = (Button)findViewById(R.id.smtset);
-        Button smttv_button = (Button)findViewById(R.id.smttv);
-        Button smtav_button = (Button)findViewById(R.id.smtav);
+        Button MMTtool_button = (Button)findViewById(R.id.MMTtool);
+        Button Smt_system_button = (Button)findViewById(R.id.Smt_system);
         Button smtstart_button = (Button)findViewById(R.id.smtstart);
         Button fileexplorer_button = (Button)findViewById(R.id.fileexplorer);
 
@@ -92,30 +88,28 @@ public class SmtActivity extends AppCompatActivity {
                 smtset_button();
             }
         });
-        smttv_button.setOnClickListener(new View.OnClickListener() {
+        MMTtool_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String smturl = smtURL.getText().toString();
-                SharedPreferences smtSharedPreferences = getSharedPreferences("smtset", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor smteditor = smtSharedPreferences.edit();
-                smteditor.putString("smturl",smturl);
-                smteditor.commit();
-                if(smturl.isEmpty())
-                    smturl = "127.0.0.1:1234";
-                smttvcontrol(smturl,"");
+                class MyThread extends Thread {
+                    public void run(){
+                        MMTtoolApi mmttoolapi = new MMTtoolApi();
+                        mmttoolapi.run_MMTtool("--ts2ip --srcip 192.168.200.12 --srcport 23456 --dstip 127.0.0.1 --dstport 0");
+
+                    }
+                }
+                new MyThread().start();
             }
         });
-        smtav_button.setOnClickListener(new View.OnClickListener() {
+        Smt_system_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String smturl = smtURL.getText().toString();
-                SharedPreferences smtSharedPreferences = getSharedPreferences("smtset", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor smteditor = smtSharedPreferences.edit();
-                smteditor.putString("smturl",smturl);
-                smteditor.commit();
-                if(smturl.isEmpty())
-                    smturl = "127.0.0.1:1234";
-                smtavcontrol(smturl,"");
+                Intent serviceIntent = new Intent(SmtActivity.this, SmtListenService.class);
+                startService(serviceIntent);
+
+                Intent starcoreIntent = new Intent(SmtActivity.this, StarcoreService.class);
+                startService(starcoreIntent);
+
             }
         });
         smtstart_button.setOnClickListener(new View.OnClickListener() {

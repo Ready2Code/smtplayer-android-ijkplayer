@@ -40,13 +40,13 @@
         <Button
             android:layout_width="98dp"
             android:layout_height="wrap_content"
-            android:text="多视角"
-            android:id="@+id/smttv" />
+            android:text="MMTtool"
+            android:id="@+id/MMTtool" />
         <Button
             android:layout_width="98dp"
             android:layout_height="wrap_content"
-            android:text="广告"
-            android:id="@+id/smtav" />
+            android:text="Smt system"
+            android:id="@+id/Smt_system" />
         <Button
             android:layout_width="98dp"
             android:layout_height="wrap_content"
