@@ -93,6 +93,9 @@
         <service android:name=".services.SmtListenService"
             android:exported="false"
             android:enabled="true" />
+        <service android:name=".services.StarcoreService"
+            android:exported="false"
+            android:enabled="true" />
 
         <activity android:name=".activities.SmtActivity" >
             <intent-filter>

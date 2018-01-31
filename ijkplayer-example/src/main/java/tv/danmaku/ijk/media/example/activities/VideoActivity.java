@@ -97,8 +97,12 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         return intent;
     }
 
+
+
     public static void intentTo(Context context, String videoPath, String videoTitle) {
-        context.startActivity(newIntent(context, videoPath, videoTitle));
+        Intent intent = newIntent(context, videoPath, videoTitle);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     @Override
@@ -266,6 +270,7 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         }*/
          String sendData = "{\"type\" : \"render\", \"format\" : {\"name\" : \"\"}}";
          String ipaddr = getVideoPath();
+         Log.i("SmtVideo", ipaddr);
          String[] ss = ipaddr.split("\\//");
          String[] ip=ss[1].toString().split("\\:");
          int port=8080;

@@ -25,7 +25,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('src/main/libs/starcore_android_r2.51.jar')
 }
 
 apply from: new File(rootProject.projectDir, "tools/gradle-on-demand.gradle");

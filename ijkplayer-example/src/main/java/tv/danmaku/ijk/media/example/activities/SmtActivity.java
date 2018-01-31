@@ -18,6 +18,8 @@ import android.content.SharedPreferences.Editor;import android.webkit.WebSetting
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import tv.danmaku.ijk.media.example.services.SmtListenService;
+import tv.danmaku.ijk.media.example.services.StarcoreService;
 import static tv.danmaku.ijk.media.example.R.id.playfile;
 
 
@@ -29,6 +31,12 @@ public class SmtActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smt);
+
+        Intent serviceIntent = new Intent(this, SmtListenService.class);
+        startService(serviceIntent);
+
+        Intent starcoreIntent = new Intent(this, StarcoreService.class);
+        startService(starcoreIntent);
 
         myWebView = (WebView) findViewById(R.id.myWebView);
         smtURL = (EditText)findViewById(R.id.smtText);
@@ -139,11 +147,11 @@ public class SmtActivity extends AppCompatActivity {
     }
     public void smttvcontrol(String url,String ipaddr){
 
-        smtTvActivity.intentTo(this, url,ipaddr);
+        //smtTvActivity.intentTo(this, url,ipaddr);
     }
     public void smtavcontrol(String url,String ipaddr){
 
-        smtAvActivity.intentTo(this, url,ipaddr);
+        //smtAvActivity.intentTo(this, url,ipaddr);
     }
     public void SmtWebplay(String url,String ipaddr){
 

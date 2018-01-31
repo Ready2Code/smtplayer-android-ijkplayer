@@ -122,13 +122,13 @@ public class controlActivity extends AppCompatActivity {
         String runcommand = "r1";
         if(switchflag)
           sendCommand(runcommand);
-        smtTvActivity.intentTo(this, url,ipaddr);
+        //smtTvActivity.intentTo(this, url,ipaddr);
     }
     public void smtavcontrol(String url,String ipaddr){
         String runcommand = "r2";
         if(switchflag)
           sendCommand(runcommand);
-        smtAvActivity.intentTo(this, url,ipaddr);
+        //smtAvActivity.intentTo(this, url,ipaddr);
     }
     public void receivedata(){
         try {
