@@ -61,3 +61,15 @@ dependencies {
     // x86Compile project(':player-x86')
     // x86_64Compile project(':player-x86_64')
 }
+
+task copySmtSystem(type: Zip) {
+    from 'smt_system'
+    archiveName 'smt_system.zip'
+    destinationDir=(file('src/main/assets'))
+    exclude '.git' , 'server', 'related/MMTtool', 'related/libMMTtool.so', 'program1.json', 'program2.json'
+}
+
+preBuild.dependsOn copySmtSystem
+
+
+
