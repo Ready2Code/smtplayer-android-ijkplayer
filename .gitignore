@@ -1,11 +1,15 @@
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
+# -----
+build/
+ffmpeg-temp/
+android/ffmpeg-*
+android/openssl-*
+ios/ffmpeg-*
+ios/openssl-*
+extra
 .DS_Store
-/build
-/captures
-android-ndk-prof
+ijkmedia/ijkyuv/
+ijkprof/android-ndk-profiler/
+
 # built application files
 *.apk
 *.ap_
@@ -20,7 +24,20 @@ android-ndk-prof
 bin/
 gen/
 obj/
-
 *.iml
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Android Studio
+.idea
+.gradle
+build/
+
+# Xcode
+xcuserdata
+xcshareddata
+*.xccheckout
+
 ijkplayer-example/smt_system/
 smt_system.zip

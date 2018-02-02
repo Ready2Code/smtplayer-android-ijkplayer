@@ -138,7 +138,7 @@ public class StarcoreService extends Service{
             dataSource.close();
 
             dataSource = assetManager.open("smt_system.zip");
-            unzip(dataSource, "/data/data/"+getPackageName()+"/files/smt_system",false );
+            unzip(dataSource, "/data/data/"+getPackageName()+"/files",false );
         }
         catch(Exception e)
         {
