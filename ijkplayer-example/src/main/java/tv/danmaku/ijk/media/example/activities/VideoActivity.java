@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -43,7 +44,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Button;
@@ -51,6 +56,7 @@ import android.view.View;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 
 
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
@@ -85,6 +91,13 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
     private TableLayout mHudView;
     private DrawerLayout mDrawerLayout;
     private ViewGroup mRightDrawer;
+
+    private ImageView imageView;
+    private Animation animation;
+    private AnimationSet animationSet;
+    private DatagramSocket receiveSocket;
+    private boolean listenStatus = true;
+    private int RECVPORT = 9430;
 
     private Settings mSettings;
     private boolean mBackPressed;
@@ -242,7 +255,67 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
             return;
         }
         mVideoView.start();
+
+        imageView = (ImageView) findViewById(R.id.image);
+        animationSet = new AnimationSet(true);
+        animation = new AlphaAnimation(1.0f, 0);
+        animation.setDuration(500);
+        animation.setRepeatCount(1);
+        animationSet.addAnimation(animation);
+
+        MyAsyncTask myAsyncTask = new MyAsyncTask();
+        myAsyncTask.execute();
     }
+
+    private class MyAsyncTask extends AsyncTask<Void, String, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            String[] ss;
+            try{
+                if (receiveSocket == null) {
+                    receiveSocket = new DatagramSocket(null);
+                    receiveSocket.setReuseAddress(true);
+                    receiveSocket.bind(new InetSocketAddress(RECVPORT));
+                }
+
+                byte[] inBuf = new byte[1024];
+
+                while (listenStatus){
+                    Log.i("Smt", "Video receive reddot");
+                    DatagramPacket inPacket = new DatagramPacket(inBuf, inBuf.length);
+                    receiveSocket.receive(inPacket);
+
+                    String recvInfo = new String(inPacket.getData(), inPacket.getOffset(), inPacket.getLength());
+                    ss = recvInfo.split("-");
+
+                    if (ss[0].equals("reddot")) {
+                        publishProgress("reddot");
+                        Log.i("SmtListenService", "do InBackground reddot");
+                    } else
+                        Log.i("SmtListenService", "do InBackground --" + ss[0] +"--");
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values){
+            super.onProgressUpdate(values);
+            getAlphaAnimation();
+            Log.i("SmtListenService", "onProgressUpdate reddot");
+        }
+
+    }
+
+    public void getAlphaAnimation() {
+
+        imageView.startAnimation(animationSet);
+        Log.i("SmtListenService","getAploaAnimation");
+    }
+
     public void switchVideo()
     {
         Intent intente =new Intent(this,VideoSwitchActivity.class);
@@ -438,4 +511,5 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
 
         return mVideoView.getSelectedTrack(trackType);
     }
+
 }
