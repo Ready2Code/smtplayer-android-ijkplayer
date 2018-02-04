@@ -71,14 +71,19 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/reddot_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:paddingRight="10dp"
                 android:paddingBottom="20dp"
-                android:src="@drawable/reddot"/>
+                android:src="@drawable/reddot"
+                android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/info_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </RelativeLayout>
         <TableLayout
