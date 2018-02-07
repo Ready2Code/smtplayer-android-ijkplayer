@@ -134,11 +134,11 @@ public class StarcoreService extends Service{
         try{
             AssetManager assetManager = getAssets();
             InputStream dataSource = assetManager.open("django.zip");
-            unzip(dataSource, "/data/data/"+getPackageName()+"/files",false );
+            unzip(dataSource, "/data/data/"+getPackageName()+"/files",true );
             dataSource.close();
 
             dataSource = assetManager.open("smt_system.zip");
-            unzip(dataSource, "/data/data/"+getPackageName()+"/files",false );
+            unzip(dataSource, "/data/data/"+getPackageName()+"/files/smt_system/",true );
         }
         catch(Exception e)
         {
@@ -168,8 +168,8 @@ public class StarcoreService extends Service{
             copyFile(this,"_hashlib.so",null);
             copyFile(this,"array.so",null);
             copyFile(this,"cPickle.so",null);
-            copyFile(this,"manage.py","smt_system/client/");
-            copyFile(this,"signal_client.py","smt_system/client/controller/");
+            //copyFile(this,"manage.py","smt_system/client/");
+            //copyFile(this,"signal_client.py","smt_system/client/controller/");
         }
         catch(Exception e){
             System.out.println(e);
@@ -210,8 +210,8 @@ public class StarcoreService extends Service{
                 pythonPath._Call("insert",0,"/data/data/"+getPackageName()+"/files/smt_system/related");
 
                 python._Set("StarcoreService", GService);
+                starService._DoFile("python", "/data/data/"+getPackageName()+"/files/smt_system/client/android-manage.py", "");
 
-                starService._DoFile("python", "/data/data/"+getPackageName()+"/files/smt_system/client/manage.py", "");
                 Log.i("StarcoreService","django running...");
             }
         }).start();
