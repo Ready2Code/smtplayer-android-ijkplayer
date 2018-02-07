@@ -22,6 +22,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
@@ -49,14 +51,19 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
+
+import java.io.InputStream;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.URL;
 
 
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
@@ -93,6 +100,7 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
     private ViewGroup mRightDrawer;
 
     private ImageView imageView;
+    private ImageView infoimage;
     private Animation animation;
     private AnimationSet animationSet;
     private DatagramSocket receiveSocket;
@@ -256,9 +264,10 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         }
         mVideoView.start();
 
-        imageView = (ImageView) findViewById(R.id.image);
+        imageView = (ImageView) findViewById(R.id.reddot_image);
+        infoimage = (ImageView) findViewById(R.id.info_image);
         animationSet = new AnimationSet(true);
-        animation = new AlphaAnimation(1.0f, 0);
+        animation = new AlphaAnimation(0, 1.0f);
         animation.setDuration(500);
         animation.setRepeatCount(1);
         animationSet.addAnimation(animation);
@@ -267,11 +276,13 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         myAsyncTask.execute();
     }
 
-    private class MyAsyncTask extends AsyncTask<Void, String, Void> {
+    private class MyAsyncTask extends AsyncTask<Void, Object, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
             String[] ss;
+            Object[] mImage = new Object[4];
+            Bitmap recvimage;
             try{
                 if (receiveSocket == null) {
                     receiveSocket = new DatagramSocket(null);
@@ -290,10 +301,22 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
                     ss = recvInfo.split("-");
 
                     if (ss[0].equals("reddot")) {
-                        publishProgress("reddot");
-                        Log.i("SmtListenService", "do InBackground reddot");
-                    } else
-                        Log.i("SmtListenService", "do InBackground --" + ss[0] +"--");
+                        recvimage = null;
+                        Log.i("SmtVideoActivity", "do InBackground reddot");
+                    } else if (ss[0].equals("stop")) {
+                        recvimage = null;
+                        Log.i("SmtVideoActivity", "do InBackground stop");
+                    } else {
+                        //recvimage = null;
+                        recvimage = getImageFromNet(ss[0]);
+                        Log.i("SmtVideoActivity", "do InBackground " + ss[1] +"--");
+                    }
+                    mImage[0] = ss[0];
+                    mImage[1] = recvimage;
+                    mImage[2] = Integer.parseInt(ss[1]);
+                    mImage[3] = Integer.parseInt(ss[2]);
+                    publishProgress(mImage);
+                    Log.i("SmtVideoActivity", "InBackground");
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -302,10 +325,19 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         }
 
         @Override
-        protected void onProgressUpdate(String... values){
+        protected void onProgressUpdate(Object... values){
             super.onProgressUpdate(values);
-            getAlphaAnimation();
-            Log.i("SmtListenService", "onProgressUpdate reddot");
+            if (values[0].equals("reddot")) {
+                getAlphaAnimation();
+                Log.i("SmtVideoActivity", "onProgressUpdate reddot"+values[1]+" " +values[2]);
+            } else if (values[0].equals("stop")) {
+                infoimage.setImageDrawable(null);
+                Log.i("SmtVideoActivity", "onProgressUpdate stop"+values[1]+" " +values[2]);
+            } else {
+                infoimage.setImageBitmap((Bitmap)values[1]);
+                setImage((int)values[2], (int)values[3]);
+                Log.i("SmtVideoActivity", "onProgressUpdate info"+values[2]+" " +values[3]);
+            }
         }
 
     }
@@ -313,7 +345,43 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
     public void getAlphaAnimation() {
 
         imageView.startAnimation(animationSet);
-        Log.i("SmtListenService","getAploaAnimation");
+        Log.i("SmtListenService","getAplhaAnimation");
+    }
+
+    private Bitmap getImageFromNet(String url) {
+        HttpURLConnection connection = null;
+        try {
+            URL mUrl = new URL(url);
+            connection = (HttpURLConnection) mUrl.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(10000);
+            connection.setReadTimeout(5000);
+            connection.connect();
+            int resCode = connection.getResponseCode();
+            if (resCode == 200) {
+                InputStream is = connection.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                Log.i("SmtVideoActivity", "get image from net");
+                return bitmap;
+            }else {
+                Log.i("SmtVideoActivity", "no get image from net: "+resCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (connection != null){
+                connection.disconnect();
+            }
+        }
+        return null;
+    }
+
+    private void setImage(int x, int y) {
+
+        ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(infoimage.getLayoutParams());
+        margin.setMargins(x, y, 0, 0);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(margin);
+        infoimage.setLayoutParams(layoutParams);
     }
 
     public void switchVideo()
