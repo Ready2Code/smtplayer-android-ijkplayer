@@ -94,7 +94,7 @@ public class SmtActivity extends AppCompatActivity {
                 class MyThread extends Thread {
                     public void run(){
                         MMTtoolApi mmttoolapi = new MMTtoolApi();
-                        mmttoolapi.run_MMTtool("--ts2ip --srcip 192.168.200.12 --srcport 23456 --dstip 127.0.0.1 --dstport 0");
+                        mmttoolapi.run_MMTtool("--ts2ip --srcip 192.168.100.233 --srcport 3006 --dstip 127.0.0.1 --dstport 0");
 
                     }
                 }
