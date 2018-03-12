@@ -304,8 +304,8 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
                     String recvInfo = new String(inPacket.getData(), inPacket.getOffset(), inPacket.getLength());
                     Log.i("SmtVideoActivity ss2==","********************"+recvInfo);
                     ss = recvInfo.split("-");
-                    if(ss.length<2)
-                        return null;
+                   // if(ss.length<2)
+                       // return null;
                     if (ss[0].equals("reddot")) {
                         //redot
 //                        recvimage = null;
@@ -317,7 +317,7 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
                         recvimage = getImageFromNet(ss[1]);
                         if(recvimage==null || ss.length < 2){
                             Log.i("SmtVideoActivity", "do InBackground recvimage===null");
-                            return null;
+                            //return null;
                         }
                         mImage[0] = ss[0];
                         mImage[1] = recvimage;
@@ -356,6 +356,7 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         @Override
         protected void onProgressUpdate(Object... values){
             super.onProgressUpdate(values);
+            Log.i("SmtVideoActivity", "onProgressUpdate"+values[0]);
             if (values[0].equals("reddot")) {
                 getAlphaAnimation();
                 infoimage.setImageBitmap((Bitmap)values[1]);
@@ -528,8 +529,8 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         super.onBackPressed();
         if(myAsyncTask !=null){
             myAsyncTask.cancel(true);
-            finish();
         }
+        finish();
     }
 
     @Override
@@ -545,8 +546,8 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         IjkMediaPlayer.native_profileEnd();
         if(myAsyncTask !=null){
             myAsyncTask.cancel(true);
-            finish();
         }
+        finish();
     }
 
     @Override
