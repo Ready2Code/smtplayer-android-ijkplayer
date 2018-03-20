@@ -87,6 +87,7 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
     private String mDeviceName;
     private boolean playfile;
     private Uri    mVideoUri;
+    private String mVideoType;
     private EditText bluetoothdata;
     private int    SendMode;
     private boolean mEnableBluetooth;
@@ -106,22 +107,23 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
     private DatagramSocket receiveSocket;
     private boolean listenStatus = true;
     private int RECVPORT = 9430;
-
+    private MyAsyncTask myAsyncTask=null;
     private Settings mSettings;
     private boolean mBackPressed;
     public static VideoActivity videoA;
     private  final static String ACTION="com.sjtu.wefirechat.ACTION_GATT_MESSAGE";
-    public static Intent newIntent(Context context, String videoPath, String videoTitle) {
+    public static Intent newIntent(Context context, String videoPath, String videoTitle, String videoType) {
         Intent intent = new Intent(context, VideoActivity.class);
         intent.putExtra("videoPath", videoPath);
         intent.putExtra("videoTitle", videoTitle);
+        intent.putExtra("videoType", videoType);
         return intent;
     }
 
 
 
-    public static void intentTo(Context context, String videoPath, String videoTitle) {
-        Intent intent = newIntent(context, videoPath, videoTitle);
+    public static void intentTo(Context context, String videoPath, String videoTitle, String videoType) {
+        Intent intent = newIntent(context, videoPath, videoTitle, videoType);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
@@ -265,14 +267,32 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         mVideoView.start();
 
         imageView = (ImageView) findViewById(R.id.reddot_image);
+
         infoimage = (ImageView) findViewById(R.id.info_image);
+        mVideoType = getIntent().getStringExtra("videoType");
+        Log.i("SmtVideActivity", mVideoType);
+        if (mVideoType.equals("broadcast")){
+            Bitmap typeBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.broadcast);
+            setImage(100, 100);
+            infoimage.setImageBitmap(typeBitmap);
+        }else if(mVideoType.equals("broadband")){
+            Bitmap typeBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.broadband);
+            setImage(100, 100);
+            infoimage.setImageBitmap(typeBitmap);
+        }
+        Log.i("SmtVideActivity", mVideoType);
+
+
+
         animationSet = new AnimationSet(true);
         animation = new AlphaAnimation(0, 1.0f);
         animation.setDuration(500);
         animation.setRepeatCount(1);
         animationSet.addAnimation(animation);
-
-        MyAsyncTask myAsyncTask = new MyAsyncTask();
+        if(myAsyncTask !=null){
+            myAsyncTask.cancel(true);
+        }
+        myAsyncTask = new MyAsyncTask();
         myAsyncTask.execute();
     }
 
@@ -284,37 +304,67 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
             Object[] mImage = new Object[4];
             Bitmap recvimage;
             try{
+                Log.i("Smt", "start receivesocket******************");
                 if (receiveSocket == null) {
+                    Log.i("Smt", "new receivesocket******************");
                     receiveSocket = new DatagramSocket(null);
                     receiveSocket.setReuseAddress(true);
                     receiveSocket.bind(new InetSocketAddress(RECVPORT));
                 }
 
-                byte[] inBuf = new byte[1024];
+                byte[] inBuf = new byte[8182];
 
                 while (listenStatus){
-                    Log.i("Smt", "Video receive reddot");
+                    if (isCancelled()) {
+                        break;
+                    }
+                    Log.i("Smt", "Video receive reddo*****************************************");
                     DatagramPacket inPacket = new DatagramPacket(inBuf, inBuf.length);
                     receiveSocket.receive(inPacket);
 
                     String recvInfo = new String(inPacket.getData(), inPacket.getOffset(), inPacket.getLength());
+                    Log.i("SmtVideoActivity ss2==","********************"+recvInfo);
                     ss = recvInfo.split("-");
-
+                   // if(ss.length<2)
+                       // return null;
                     if (ss[0].equals("reddot")) {
-                        recvimage = null;
+                        //redot
+//                        recvimage = null;
+//                        mImage[0] = ss[0];
+//                        mImage[1] = recvimage;
+                        //image display test
+                        recvimage=null;
+                        Log.i("SmtVideoActivity ss1=",ss[1]);
+                        recvimage = getImageFromNet(ss[1]);
+                        if(recvimage==null || ss.length < 2){
+                            Log.i("SmtVideoActivity", "do InBackground recvimage===null");
+                            //return null;
+                        }
+                        mImage[0] = ss[0];
+                        mImage[1] = recvimage;
+                        mImage[2]=100;
+                        mImage[3]=100;
+
                         Log.i("SmtVideoActivity", "do InBackground reddot");
                     } else if (ss[0].equals("stop")) {
                         recvimage = null;
                         Log.i("SmtVideoActivity", "do InBackground stop");
                     } else {
                         //recvimage = null;
-                        recvimage = getImageFromNet(ss[0]);
+                       // recvimage = getImageFromNet(ss[0]);
                         Log.i("SmtVideoActivity", "do InBackground " + ss[1] +"--");
                     }
-                    mImage[0] = ss[0];
-                    mImage[1] = recvimage;
-                    mImage[2] = Integer.parseInt(ss[1]);
-                    mImage[3] = Integer.parseInt(ss[2]);
+                  //  Log.i("SmtVideoActivity ss1=",ss[1]);
+                 //   Log.i("SmtVideoActivity ss2=",ss[2]);
+       //             if(ss.length<2){
+       //               mImage[0] = ss[0];
+           //           mImage[1] = recvimage;
+//   //                 }else if(ss.length>2){
+//                      mImage[0] = ss[0];
+//                      mImage[1] = recvimage;
+//                      mImage[2] = Integer.parseInt(ss[1]);
+//                      mImage[3] = Integer.parseInt(ss[2]);
+//                    }
                     publishProgress(mImage);
                     Log.i("SmtVideoActivity", "InBackground");
                 }
@@ -326,9 +376,15 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
 
         @Override
         protected void onProgressUpdate(Object... values){
+            if(isCancelled()){
+                return;
+            }
             super.onProgressUpdate(values);
+            Log.i("SmtVideoActivity", "onProgressUpdate"+values[0]);
             if (values[0].equals("reddot")) {
                 getAlphaAnimation();
+                infoimage.setImageBitmap((Bitmap)values[1]);
+                setImage((int)values[2], (int)values[3]);
                 Log.i("SmtVideoActivity", "onProgressUpdate reddot"+values[1]+" " +values[2]);
             } else if (values[0].equals("stop")) {
                 infoimage.setImageDrawable(null);
@@ -358,6 +414,7 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
             connection.setReadTimeout(5000);
             connection.connect();
             int resCode = connection.getResponseCode();
+            Log.i("SmtVideoActivityrescode", String.valueOf(resCode));
             if (resCode == 200) {
                 InputStream is = connection.getInputStream();
                 Bitmap bitmap = BitmapFactory.decodeStream(is);
@@ -390,6 +447,12 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         startActivity(intente);
         finish();
 
+    }
+    public void stopRender(){
+        String sendData = "{\"type\" : \"render\", \"format\" : {\"name\" : \"\"}}";
+        int localport=8811;
+        String localIp=getLocalIpAddr();
+        sendData(localIp,localport,sendData);
     }
     public void sendData()
     {
@@ -488,6 +551,10 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
     public void onBackPressed() {
         mBackPressed = true;
         super.onBackPressed();
+        if(myAsyncTask !=null){
+            myAsyncTask.cancel(true);
+        }
+        finish();
     }
 
     @Override
@@ -502,6 +569,11 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
             mVideoView.enterBackground();
         }
         IjkMediaPlayer.native_profileEnd();
+        if(myAsyncTask !=null){
+            myAsyncTask.cancel(true);
+            myAsyncTask = null;
+        }
+        finish();
     }
 
     @Override
