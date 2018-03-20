@@ -19,7 +19,7 @@ public class SmtListenService extends Service {
 
     private String lasturl = "";
     private String nowurl = "";
-    private int RECVPORT = 8080;
+    private int RECVPORT = 9431;
 
 
     @Override
@@ -76,12 +76,7 @@ public class SmtListenService extends Service {
                     receiveSocket.receive(inPacket);
 
                     String recvInfo = new String(inPacket.getData(), inPacket.getOffset(), inPacket.getLength());
-                    if(recvInfo.indexOf("render") !=-1){
-                        recvInfo="render-render" ;
-                    }
                     ss = recvInfo.split("-");
-                    Log.i("ss0@@@@@@@@@@@@@@@@", ss[0]);
-
 /*
                     if (ss[0].equals("cal") || ss[0].equals("add")){
                         Log.i("SmtListenService", "--" + ss[0]);
@@ -122,7 +117,7 @@ public class SmtListenService extends Service {
                         Log.i("SmtListenService","del:"+ ss[1]);
                     }
                 }else if(ss[0].equals("render")){
-                    VideoActivity.videoA.stopRender();
+                    VideoActivity.videoA.sendData();
                     Log.i("SmtListenService", "render");
                 } else
                     Log.i("SmtListenService", "--" + ss[0] +"--");
