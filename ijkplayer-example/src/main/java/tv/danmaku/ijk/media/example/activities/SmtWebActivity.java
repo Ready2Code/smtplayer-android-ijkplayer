@@ -72,7 +72,7 @@ public class SmtWebActivity extends SmtActivity {
                 String  url = loadingUrl;
                 if (!TextUtils.isEmpty(url) ) {
                     if( url.startsWith("smt://")) {
-                        smtplay(loadingUrl, "","");
+                        smtplay(loadingUrl, "");
                     } else {
 //                        int  ret=url.indexOf("&ad");
 //                        if(ret>-1){
@@ -100,7 +100,7 @@ public class SmtWebActivity extends SmtActivity {
                         String  weburl = url;
                         if (!TextUtils.isEmpty(url) ) {
                             if( weburl.startsWith("smt://")) {
-                                smtplay(url, "", "");
+                                smtplay(url, "");
                             } else {
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                                 startActivity(browserIntent);

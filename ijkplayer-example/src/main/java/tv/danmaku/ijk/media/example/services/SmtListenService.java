@@ -8,7 +8,6 @@ import android.util.Log;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 import tv.danmaku.ijk.media.example.activities.VideoActivity;
@@ -18,8 +17,9 @@ public class SmtListenService extends Service {
     private DatagramSocket receiveSocket;
     private boolean listenStatus = true;
 
+    private String lasturl = "";
+    private String nowurl = "";
     private int RECVPORT = 8080;
-    private int IMAGINPORT = 9430;
 
 
     @Override
@@ -54,8 +54,6 @@ public class SmtListenService extends Service {
     public class UdpReceiveThread extends Thread {
 
         String[] ss;
-        String lasturl = "";
-        String nowurl = "";
 
         @Override
         public void run() {
@@ -84,45 +82,43 @@ public class SmtListenService extends Service {
                     ss = recvInfo.split("-");
                     Log.i("ss0@@@@@@@@@@@@@@@@", ss[0]);
 
-                if (ss[0].equals("cal")){
+/*
+                    if (ss[0].equals("cal") || ss[0].equals("add")){
+                        Log.i("SmtListenService", "--" + ss[0]);
+                        if (!playstatus) {
+                            smtplay(ss[1], "");
+                            playstatus = true;
+                            last_rul = ss[1];
+                            Log.i("SmtListenService","cal:"+ ss[1]);
+                        }else {
+                            smtplay(ss[1], "");
+                            Log.i("SmtListenService","cal:"+ ss[1]);
+                        }
+
+                    }else if(ss[0].equals("del")){
+                        smtplay(last_rul, "");
+                        Log.i("SmtListenService","del:"+ ss[1]);
+                    }else
+                        Log.i("SmtListenService", "--" + ss[0] +"--");
+                }
+*/
+                if (ss[0].equals("cal") || ss[0].equals("add")){
                     Log.i("SmtListenService", "--" + ss[0]);
                     if (nowurl.equals("")){
                         nowurl = ss[1];
-                        if (ss[2].equals("broadcast"))
-                            smtplay(ss[1],"", "broadcast");
-                        else if(ss[2].equals("broadband"))
-                            smtplay(ss[1],"", "broadband");
-                        else
-                            smtplay(ss[1], "", "");
+                        smtplay(ss[1],"");
                     }else {
                         VideoActivity.videoA.finish();
-                        Thread.sleep(500);
-                        //lasturl = nowurl;
+                        lasturl = nowurl;
                         nowurl = ss[1];
-                        if (ss[2].equals("broadcast"))
-                            smtplay(ss[1],"", "broadcast");
-                        else if(ss[2].equals("broadband"))
-                            smtplay(ss[1],"", "broadband");
-                        else
-                            smtplay(ss[1], "", "");
-
-/*
-                        DatagramSocket typeSocket = new DatagramSocket(IMAGINPORT);
-                        byte[] typeBuf = "";
-                        if (ss[2].equals("broadcast"))
-                            typeBuf = "broadcast".getBytes();
-                        else if (ss[2].equals("broadband"))
-                            typeBuf = "broadband".getBytes();
-                        DatagramPacket typePacket = new DatagramPacket(typeBuf, typeBuf.length, InetAddress.getByName("lo"))
-*/                    }
+                        smtplay(ss[1],"");
+                    }
                     Log.i("SmtListenService","cal:"+ ss[1]);
                 }else if(ss[0].equals("del")){
                     if (ss[1].equals(nowurl)) {
                         VideoActivity.videoA.finish();
-                        //smtplay(lasturl,"");
-                        //nowurl = lasturl;
-                        //smtplay(mainviewurl, "");
-                        //nowurl = mainviewurl;
+                        smtplay(lasturl,"");
+                        nowurl = lasturl;
                         Log.i("SmtListenService","del:"+ ss[1]);
                     }
                 }else if(ss[0].equals("render")){
@@ -137,9 +133,9 @@ public class SmtListenService extends Service {
         }
     }
 
-    public void smtplay(String url,String ipaddr, String videotype){
+    public void smtplay(String url,String ipaddr){
 
-        VideoActivity.intentTo(this, url,ipaddr, videotype);
+        VideoActivity.intentTo(this, url,ipaddr);
     }
 
 }
