@@ -64,7 +64,7 @@ public class SmtActivity extends AppCompatActivity {
             smteditor.commit();
             if(smturl.isEmpty())
                 smturl = "127.0.0.1:1234";
-            smtplay(smturl,"");
+            smtplay(smturl,"", "");
             }
         });
         play_button.setOnClickListener(new View.OnClickListener() {
@@ -158,9 +158,9 @@ public class SmtActivity extends AppCompatActivity {
     });
 
     }
-    public void smtplay(String url,String ipaddr){
+    public void smtplay(String url,String ipaddr, String videotype){
 
-        VideoActivity.intentTo(this, url,ipaddr);
+        VideoActivity.intentTo(this, url,ipaddr,videotype);
     }
     public void smttvcontrol(String url,String ipaddr){
 
