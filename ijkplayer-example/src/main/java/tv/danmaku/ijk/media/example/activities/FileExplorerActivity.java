@@ -92,7 +92,7 @@ public class FileExplorerActivity extends AppActivity {
             mSettings.setLastDirectory(path);
             doOpenDirectory(path, true);
         } else if (f.exists()) {
-            VideoActivity.intentTo(this, f.getPath(), f.getName());
+            VideoActivity.intentTo(this, f.getPath(), f.getName(), "");
         }
     }
 }
