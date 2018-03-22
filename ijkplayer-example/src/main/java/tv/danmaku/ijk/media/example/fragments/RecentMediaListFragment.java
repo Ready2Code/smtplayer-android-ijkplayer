@@ -65,7 +65,11 @@ public class RecentMediaListFragment extends Fragment implements LoaderManager.L
             public void onItemClick(AdapterView<?> parent, View view, final int position, final long id) {
                 String url = mAdapter.getUrl(position);
                 String name = mAdapter.getName(position);
+<<<<<<< HEAD
                 VideoActivity.intentTo(activity, url, name,"");
+=======
+                VideoActivity.intentTo(activity, url, name, "");
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
             }
         });
 

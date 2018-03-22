@@ -19,6 +19,10 @@ public class SmtListenService extends Service {
     private DatagramSocket receiveSocket;
     private boolean listenStatus = true;
 
+<<<<<<< HEAD
+=======
+    private int IMAGINPORT = 9430;
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
     private int RECVPORT = 8080;
     private int IMAGINPORT = 9430;
 
@@ -85,6 +89,29 @@ public class SmtListenService extends Service {
                     ss = recvInfo.split("-");
                     Log.i("ss0@@@@@@@@@@@@@@@@", ss[0]);
 
+<<<<<<< HEAD
+=======
+/*
+                    if (ss[0].equals("cal") || ss[0].equals("add")){
+                        Log.i("SmtListenService", "--" + ss[0]);
+                        if (!playstatus) {
+                            smtplay(ss[1], "");
+                            playstatus = true;
+                            last_rul = ss[1];
+                            Log.i("SmtListenService","cal:"+ ss[1]);
+                        }else {
+                            smtplay(ss[1], "");
+                            Log.i("SmtListenService","cal:"+ ss[1]);
+                        }
+
+                    }else if(ss[0].equals("del")){
+                        smtplay(last_rul, "");
+                        Log.i("SmtListenService","del:"+ ss[1]);
+                    }else
+                        Log.i("SmtListenService", "--" + ss[0] +"--");
+                }
+*/
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
                 if (ss[0].equals("cal")){
                     Log.i("SmtListenService", "--" + ss[0]);
                     if (nowurl.equals("")){
@@ -97,9 +124,13 @@ public class SmtListenService extends Service {
                             smtplay(ss[1], "", "");
                     }else {
                         VideoActivity.videoA.finish();
+<<<<<<< HEAD
                      //   switchVideo();
                         Thread.sleep(1000);
 
+=======
+                        Thread.sleep(500);
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
                         //lasturl = nowurl;
                         nowurl = ss[1];
                         if (ss[2].equals("broadcast"))
@@ -108,6 +139,7 @@ public class SmtListenService extends Service {
                             smtplay(ss[1],"", "broadband");
                         else
                             smtplay(ss[1], "", "");
+<<<<<<< HEAD
 
 /*
                         DatagramSocket typeSocket = new DatagramSocket(IMAGINPORT);
@@ -118,14 +150,20 @@ public class SmtListenService extends Service {
                             typeBuf = "broadband".getBytes();
                         DatagramPacket typePacket = new DatagramPacket(typeBuf, typeBuf.length, InetAddress.getByName("lo"))
 */                    }
+=======
+                    }
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
                     Log.i("SmtListenService","cal:"+ ss[1]);
                 }else if(ss[0].equals("del")){
                     if (ss[1].equals(nowurl)) {
                         VideoActivity.videoA.finish();
                         //smtplay(lasturl,"");
                         //nowurl = lasturl;
+<<<<<<< HEAD
                         //smtplay(mainviewurl, "");
                         //nowurl = mainviewurl;
+=======
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
                         Log.i("SmtListenService","del:"+ ss[1]);
                     }
                 }else if(ss[0].equals("render")){
@@ -141,6 +179,7 @@ public class SmtListenService extends Service {
     }
 
     public void smtplay(String url,String ipaddr, String videotype){
+<<<<<<< HEAD
 
         VideoActivity.intentTo(this, url,ipaddr, videotype);
     }
@@ -149,6 +188,10 @@ public class SmtListenService extends Service {
         Intent intente =new Intent(this,VideoSwitchActivity.class);
         startActivity(intente);
 
+=======
+
+        VideoActivity.intentTo(this, url,ipaddr, videotype);
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
     }
 
 }

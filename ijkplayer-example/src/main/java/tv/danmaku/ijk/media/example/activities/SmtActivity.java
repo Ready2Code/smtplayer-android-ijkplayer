@@ -64,8 +64,12 @@ public class SmtActivity extends AppCompatActivity {
             smteditor.commit();
             if(smturl.isEmpty())
                 smturl = "127.0.0.1:1234";
+<<<<<<< HEAD
             Log.i("Smt", smturl);
             smtplay(smturl,"","");
+=======
+            smtplay(smturl,"", "");
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
             }
         });
         play_button.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +164,11 @@ public class SmtActivity extends AppCompatActivity {
     });
 
     }
+<<<<<<< HEAD
     public void smtplay(String url,String ipaddr,String videotype){
+=======
+    public void smtplay(String url,String ipaddr, String videotype){
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
 
         VideoActivity.intentTo(this, url,ipaddr,videotype);
     }

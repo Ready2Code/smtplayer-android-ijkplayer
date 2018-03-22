@@ -72,7 +72,11 @@ public class SmtWebActivity extends SmtActivity {
                 String  url = loadingUrl;
                 if (!TextUtils.isEmpty(url) ) {
                     if( url.startsWith("smt://")) {
+<<<<<<< HEAD
                         smtplay(loadingUrl, "","");
+=======
+                        smtplay(loadingUrl, "", "");
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
                     } else {
 //                        int  ret=url.indexOf("&ad");
 //                        if(ret>-1){
@@ -100,6 +104,7 @@ public class SmtWebActivity extends SmtActivity {
                         String  weburl = url;
                         if (!TextUtils.isEmpty(url) ) {
                             if( weburl.startsWith("smt://")) {
+<<<<<<< HEAD
                                 String[] nettype=weburl.split(":");
                                 String type="";
                                 if(nettype[1]=="//127.0.0.1")
@@ -107,6 +112,9 @@ public class SmtWebActivity extends SmtActivity {
                                 else
                                     type="broadband";
                                 smtplay(url, "", type);
+=======
+                                smtplay(url, "", "");
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
                             } else {
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                                 startActivity(browserIntent);

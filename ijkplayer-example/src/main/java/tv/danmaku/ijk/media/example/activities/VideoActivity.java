@@ -376,7 +376,11 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
 
         @Override
         protected void onProgressUpdate(Object... values){
+<<<<<<< HEAD
             if(isCancelled()){
+=======
+            if (isCancelled()) {
+>>>>>>> cb4030de57c8d91b670a24b20a747c2488c4835d
                 return;
             }
             super.onProgressUpdate(values);
