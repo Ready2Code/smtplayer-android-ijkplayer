@@ -11,7 +11,7 @@
     android:background="@android:color/background_dark"
     tools:context="tv.danmaku.ijk.media.example.activities.controlActivity">
 
-    <RelativeLayout
+   <!-- <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
@@ -47,5 +47,5 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
-    </RelativeLayout>
+    </RelativeLayout>-->
 </RelativeLayout>

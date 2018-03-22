@@ -43,59 +43,59 @@ public class controlActivity extends AppCompatActivity {
         setContentView(R.layout.activity_control);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .detectDiskReads()
-                .detectDiskWrites()
-                .detectNetwork()
-                .penaltyLog()
-                .build());
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectLeakedSqlLiteObjects()
-                //         .detectLeakedClosableObjects()
-                .penaltyLog()
-                .penaltyDeath()
-                .build());
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        if (mSettings == null) {
-            mSettings = new Settings(this);
-        }
-        smturl = getIntent().getStringExtra("videoPath");
-        recvport = 8080;
-        recvbuff = new byte[32];
-        recvdata="-1";
-        switchflag = true;
-
-
-        final Button smt_mubutton = (Button) findViewById(R.id.mubutton);
-        final Button smt_avbutton = (Button) findViewById(R.id.avbutton);
-        final Button smt_switch_control_button = (Button) findViewById(R.id.smt_switch_control_button);
-        smt_avbutton.setEnabled(true);
-        smt_mubutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                smttvcontrol(smturl,"");
-            }
-        });
-        smt_avbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                smtavcontrol(smturl,"");
-
-            }
-        });
-        smt_switch_control_button.setText("Y");
-        smt_switch_control_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(switchflag == false){
-                    switchflag = true;
-                    smt_switch_control_button.setText("Y");
-                }else{
-                    switchflag = false;
-                    smt_switch_control_button.setText("N");
-                }
-            }
-        });
+//        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+//                .detectDiskReads()
+//                .detectDiskWrites()
+//                .detectNetwork()
+//                .penaltyLog()
+//                .build());
+//        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+//                .detectLeakedSqlLiteObjects()
+//                //         .detectLeakedClosableObjects()
+//                .penaltyLog()
+//                .penaltyDeath()
+//                .build());
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        if (mSettings == null) {
+//            mSettings = new Settings(this);
+//        }
+//        smturl = getIntent().getStringExtra("videoPath");
+//        recvport = 8080;
+//        recvbuff = new byte[32];
+//        recvdata="-1";
+//        switchflag = true;
+//
+//
+//        final Button smt_mubutton = (Button) findViewById(R.id.mubutton);
+//        final Button smt_avbutton = (Button) findViewById(R.id.avbutton);
+//        final Button smt_switch_control_button = (Button) findViewById(R.id.smt_switch_control_button);
+//        smt_avbutton.setEnabled(true);
+//        smt_mubutton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                smttvcontrol(smturl,"");
+//            }
+//        });
+//        smt_avbutton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                smtavcontrol(smturl,"");
+//
+//            }
+//        });
+//        smt_switch_control_button.setText("Y");
+//        smt_switch_control_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(switchflag == false){
+//                    switchflag = true;
+//                    smt_switch_control_button.setText("Y");
+//                }else{
+//                    switchflag = false;
+//                    smt_switch_control_button.setText("N");
+//                }
+//            }
+//        });
 //        new Thread(new Runnable() {//recv data thread
 //            @Override
 //            public void run() {
